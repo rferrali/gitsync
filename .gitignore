@@ -1,5 +1,7 @@
 # environment
 /gitsync.json
+/tex
+/remote
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
