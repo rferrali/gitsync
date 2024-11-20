@@ -1,0 +1,39 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "config",
+    "title": "gitsync config",
+    "description": "The gitsync config file",
+    "type": "object",
+    "properties": {
+        "assets": {
+            "description": "The path to the assets directory, relative to project root",
+            "type": "string"
+        },
+        "projects": {
+            "description": "The list of projects to sync",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "The name of the project",
+                        "type": "string"
+                    },
+                    "local": {
+                        "description": "The local path to the project",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "local"
+                ]
+            },
+            "minItems": 0,
+            "uniqueItems": true
+        }
+    },
+    "required": [
+        "assets"
+    ]
+}
