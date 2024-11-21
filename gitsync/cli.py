@@ -3,7 +3,7 @@ from dotenv import set_key
 from pathlib import Path
 import shutil
 from importlib.resources import files
-from gitsync.utils import read_config, check_push
+import gitsync.utils as utils
 
 @click.group()
 def cli():
@@ -13,16 +13,16 @@ def cli():
 def push():
     """Push projects to their remote directories."""
     click.echo(f"Pushing projects to their remote directories...")
-    config = read_config()
+    config = utils.read_config()
     for project in config['projects']:
         click.echo(f"Project {project['name']}")
         click.echo(f"  Pushing {project['local']} to {project['remote']}...")
         # compare local and remote
-        check = check_push(project['local'], project['remote'])
+        check = utils.check_push(project['local'], project['remote'], config['assets'])
         if len(check['right_only']) > 0 or len(check['diff_files']) > 0:
             click.echo(f"  Pushing may delete some content you need in the remote directory.")
             if len(check['right_only']) > 0:
-                click.echo(f"  These files are not in local:")
+                click.echo(f"  These files and foldersare not in local:")
                 for f in check['right_only']:
                     click.echo(f"    {f}")
             if len(check['diff_files']) > 0:
@@ -30,7 +30,7 @@ def push():
                 for f in check['diff_files']:
                     click.echo(f"    {f}")
             # click.confirm("Are you sure you want to push?", abort=True)
-        # push(project['repo_url'], project['local'], project['remote'])
+        utils.push_project(project['local'], project['remote'])
     click.echo(f"Done!")
 
 @click.command()
