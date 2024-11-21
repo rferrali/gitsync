@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 from importlib.resources import files
 import gitsync.utils as utils
+from git import Repo, InvalidGitRepositoryError
 
 @click.group()
 def cli():
@@ -14,6 +15,19 @@ def push():
     """Push projects to their remote directories."""
     click.echo(f"Pushing projects to their remote directories...")
     config = utils.read_config()
+    is_git_repo = True
+    try: 
+        repo = Repo()
+    except InvalidGitRepositoryError:
+        click.echo(f"This is not a Git repository")
+        is_git_repo = False
+    if is_git_repo:
+        # check if we're on the main branch
+        if repo.active_branch.name != 'main':
+            raise RuntimeError(f"You must be on the main branch to push.")
+        if repo.is_dirty():
+            raise RuntimeError(f"You must commit your changes before pushing.")
+
     for project in config['projects']:
         click.echo(f"Project {project['name']}")
         click.echo(f"  Pushing {project['local']} to {project['remote']}...")
