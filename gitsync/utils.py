@@ -59,7 +59,7 @@ def check_push(local, remote, assets):
     assets = Path(assets).name
     return diff_files(compare, local, remote, assets)
 
-def diff_files(dcmp, local, remote, assets, name = ''):
+def diff_files(dcmp, local, remote, assets, name=''):
     out = {
         "right_only": [],
         "diff_files": []
@@ -89,3 +89,11 @@ def diff_files(dcmp, local, remote, assets, name = ''):
 def push_project(local, remote):
     rmtree(remote, ignore_errors=True)
     copytree(local, remote)
+
+def pull_project(local, remote, assets):
+    rmtree(local, ignore_errors=True)
+    copytree(remote, local)
+    assets_path = Path(assets)
+    assets_link_path = Path(local).joinpath(assets_path.name)
+    rmtree(assets_link_path, ignore_errors=True)
+    assets_link_path.symlink_to(assets_path.absolute(), target_is_directory=True)

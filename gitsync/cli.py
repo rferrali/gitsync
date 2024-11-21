@@ -34,6 +34,17 @@ def push():
     click.echo(f"Done!")
 
 @click.command()
+def pull():
+    """Pull projects from their remote directories."""
+    click.echo(f"Pulling projects from their remote directories...")
+    config = utils.read_config()
+    for project in config['projects']:
+        click.echo(f"Project {project['name']}")
+        click.echo(f"  Pulling {project['remote']} to {project['local']}...")
+        utils.pull_project(project['local'], project['remote'], config['assets'])
+    click.echo(f"Done!")
+
+@click.command()
 def create():
     """Initialize a repo"""
     click.echo(f"Initializing...")
@@ -53,3 +64,4 @@ def create():
 
 cli.add_command(create)
 cli.add_command(push)
+cli.add_command(pull)
