@@ -5,3 +5,5 @@ gitsync is designed to bridge the gap in academic projects where contributors ha
 gitsync addresses this need by enabling the synchronization of LaTeX projects managed in a Git repository with directories outside the repository (e.g., a Dropbox folder). The package is built with the assumption that the Git repository maintains a central library of shared tables and figures (by default, `./assets`), with each LaTeX project stored in its own folder within the repository (e.g., `./tex/article` for the paper, and `./tex/presentation` for the slides). gitlatex provides R functions to streamline syncing the local copy of each project with their remote counterpart.
 
 ## Installation
+
+Install through PyPi
