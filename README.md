@@ -8,7 +8,11 @@ papersync simplifies collaboration by allowing coders and writers to work seamle
 
 ## Installation
 
-Install through PyPi
+Install from pip
+
+```bash
+pip install papersync
+```
 
 ## Usage: a minimal example
 
@@ -83,4 +87,24 @@ cd my-project
 papersync push
 papersync pull
 ```
+
+On pushing or pulling, `papersync` will create symlinks in each project directory, pointing to the assets library, so the projects can refer to the library using local file paths. This can also be done using the `papersync link` command. The final file structure will look like: 
+```bash
+├-- main.R # the statistical code
+├-- assets # the folder that contains the tables and figures created by main.R
+|   ├-- tables
+|   |   └-- my-table.tex
+|   └-- figures
+|       └-- my-figure.pdf
+├-- tex # the folder that contains all the writing
+|   ├-- presentation
+|   |   ├-- assets # a symlink pointing to the assets folder in the root
+|   |   └-- main.tex
+|   └-- paper
+|       ├-- assets # a symlink pointing to the assets folder in the root
+|       └-- main.tex
+├-- papersync.yaml # the public configuration file
+└-- .env # the private confifguration file
+```
+
 
