@@ -81,18 +81,18 @@ def create():
     """Initialize a repo"""
     click.echo(f"Initializing...")
     env_file = Path(".env")
-    config_file = Path("gitsync.json")
-    # Create the gitsync.json file if it does not exist.
+    config_file = Path("gitsync.yaml")
+    # Create the gitsync.yaml file if it does not exist.
     if config_file.exists():
         click.echo(f"Config file already exists. Skipping...")
         return
-    shutil.copyfile(files('gitsync.data').joinpath('gitsync.json'), config_file)
+    shutil.copyfile(files('gitsync.data').joinpath('gitsync.yaml'), config_file)
     # Create the .env file if it does not exist.
     if not env_file.exists():
         click.echo(f"Creating .env file...")
         env_file.touch(mode=0o600, exist_ok=False)
     set_key(env_file, "GITSYNC_ARTICLE", "/some/path/to/article")
-    click.echo(f"Done! Please update gitsync.json and .env with your own paths.")
+    click.echo(f"Done! Please update gitsync.yaml and .env with your own paths.")
 
 cli.add_command(create)
 cli.add_command(push)

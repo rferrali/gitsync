@@ -11,11 +11,11 @@ def read_config():
     # check if config file exists
     config_file = Path("gitsync.yaml")
     if not config_file.exists():
-        raise click.ClickException(f"Config file not found. Perhaps you didn't run 'gitsync init'? Or you're not using gitsync at the root of the local directory.")
+        raise click.ClickException(f"Config file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
     # check if .env file exists
     env_file = Path(".env")
     if not env_file.exists():
-        raise click.ClickException(f".env file not found. Perhaps you didn't run 'gitsync init'? Or you're not using gitsync at the root of the local directory.")
+        raise click.ClickException(f".env file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
     env = dotenv_values(env_file)
     # check if config file is valid
         # can it be loaded? 
