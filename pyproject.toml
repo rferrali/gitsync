@@ -19,5 +19,7 @@ dependencies = [
     "pyyaml>=5.3"
 ]
 keywords = ["latex", "git", "sync"]
+[project.scripts]
+papersync = "papersync.cli:cli"
 [project.urls]
 Homepage = "https://github.com/rferrali/papersync"
