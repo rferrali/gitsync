@@ -11,11 +11,11 @@ def read_config():
     # check if config file exists
     config_file = Path("gitsync.yaml")
     if not config_file.exists():
-        raise click.ClickException(f"Config file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
+        raise click.ClickException(f"\u274c Config file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
     # check if .env file exists
     env_file = Path(".env")
     if not env_file.exists():
-        raise click.ClickException(f".env file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
+        raise click.ClickException(f"\u274c .env file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
     env = dotenv_values(env_file)
     # check if config file is valid
         # can it be loaded? 
@@ -23,41 +23,41 @@ def read_config():
         with config_file.open() as f:
             config = safe_load(f)
     except Exception as e:
-        raise click.ClickException(f"Config file is not a well-formatted yaml.\n{e}")
+        raise click.ClickException(f"\u274c Config file is not a well-formatted yaml.\n{e}")
         # do the paths exist?
     try: 
         assets = Path(config['assets'])
     except KeyError:
-        raise click.ClickException(f"The config file must contain a key named 'assets' that points to the assets directory")
+        raise click.ClickException(f"\u274c The config file must contain a key named 'assets' that points to the assets directory")
     if not assets.exists():
-        raise click.ClickException(f"Assets directory not found: {config['assets']}")
+        raise click.ClickException(f"\u274c Assets directory not found: {config['assets']}")
     try: 
         dirty_projects = config['projects']
     except KeyError:
-        raise click.ClickException(f"The config file must contain a key named 'projects' that contains the names and local paths of each project")
+        raise click.ClickException(f"\u274c The config file must contain a key named 'projects' that contains the names and local paths of each project")
     projects = []
     for d_name, d_local in dirty_projects.items():
         local = Path(d_local)
         if not local.exists():
-            raise click.ClickException(f"Project {d_name}: local directory not found: {d_local}")
+            raise click.ClickException(f"\u274c Project {d_name}: local directory not found: {d_local}")
         try: 
             remote = env['GITSYNC_' + d_name.upper()]
         except KeyError:
-            raise click.ClickException(f".env does not contain a remote path for project {d_name}. Set a variable named GITSYNC_{d_name.upper()} in your .env file (mind the case).")
+            raise click.ClickException(f"\u274c .env does not contain a remote path for project {d_name}. Set a variable named GITSYNC_{d_name.upper()} in your .env file (mind the case).")
         if not Path(remote).exists():
-            raise click.ClickException(f"Project {d_name}: remote directory not found: {remote}")
+            raise click.ClickException(f"\u274c Project {d_name}: remote directory not found: {remote}")
         assets_link_path = local.joinpath(assets.name)
         if not assets_link_path.exists():
-            click.echo(f"Project {d_name}: the local folder does not contain a symlink pointing to the assets library")
+            click.echo(f"\u2757 Project {d_name}: the local folder does not contain a symlink pointing to the assets library")
             if click.confirm("Do you want to create one?", abort=True):
                 assets_link_path.symlink_to(assets.absolute(), target_is_directory=True)
         if not assets_link_path.is_symlink(): 
-            click.echo(f"Project {d_name}: {assets_link_path} is not a symlink pointing to the assets library")
+            click.echo(f"\u2757 Project {d_name}: {assets_link_path} is not a symlink pointing to the assets library")
             if click.confirm("Do you want to delete this folder and create a symlink instead?", abort=True):
                 rmtree(assets_link_path, ignore_errors=True)
                 assets_link_path.symlink_to(assets.absolute(), target_is_directory=True)
         if not assets_link_path.resolve().absolute() == assets.absolute():
-            click.echo(f"Project {d_name}: the {assets_link_path} symlink does not point to the assets library")
+            click.echo(f"\u2757 Project {d_name}: the {assets_link_path} symlink does not point to the assets library")
             if click.confirm("Do you want to fix this symlink?", abort=True):
                 assets_link_path.unlink()
                 assets_link_path.symlink_to(assets.absolute(), target_is_directory=True)
@@ -68,7 +68,6 @@ def read_config():
         }
         projects.append(project)
     config["projects"] = projects
-    print(config)
     return config
 
 def check_push(local, remote, assets):
