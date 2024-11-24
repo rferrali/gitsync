@@ -3,6 +3,7 @@
 /tex
 /remote
 /assets
+.pypirc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

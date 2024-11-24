@@ -1,9 +1,10 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=60", "wheel"]
 build-backend = "setuptools.build_meta"
-
+[tool.setuptools.package-data]
+papersync = ["data/papersync.yaml"]
 [project]
-name = "statex"
+name = "papersync"
 version = "0.1.0"
 description = "A tool for syncing LaTeX projects with Git and external folders."
 readme = "README.md"
@@ -19,6 +20,10 @@ dependencies = [
     "pyyaml>=5.3"
 ]
 keywords = ["latex", "git", "sync"]
+classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent"
+    ]
 [project.scripts]
 papersync = "papersync.cli:cli"
 [project.urls]
