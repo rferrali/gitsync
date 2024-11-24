@@ -14,7 +14,6 @@ def cli():
 def push():
     """Push projects to their remote directories."""
     click.echo(f"\u23f3 Pushing projects to their remote directories...")
-    config = utils.read_config()
     is_git_repo = True
     try: 
         repo = Repo()
@@ -33,6 +32,7 @@ def push():
         if repo.head.commit != remote.refs[0].commit:
             click.confirm(f"\u2757 You are behind the latest commit. You might be pushing content that is not up to date. Do you want to continue?", abort=True)
     ok = True
+    config = utils.read_config()
     for project in config['projects']:
         click.echo(f"Project {project['name']}: checking that everything is ok...", nl=False)
         # compare local and remote
@@ -72,7 +72,7 @@ def pull():
         # check if repo is dirty
         if repo.is_dirty():
             click.confirm(f"\u2757 The repo has changes that have not been committed. Pulling may overwrite them. Do you want to continue?", abort=True)
-    config = utils.read_config()
+    config = utils.read_config(confirm=True)
     for project in config['projects']:
         click.echo(f"Project {project['name']}: pulling {project['remote']} to {project['local']}", nl=False)
         utils.pull_project(project['local'], project['remote'], config['assets'])
@@ -97,6 +97,14 @@ def create():
     set_key(env_file, "PAPERSYNC_ARTICLE", "/some/path/to/article")
     click.echo(f"\u2705 Done! Please update papersync.yaml and .env with your own paths.")
 
+@click.command()
+def link():
+    """Create symlinks pointing to the assets directory in each project's local directory"""
+    click.echo(f"\u23f3 Creating symlinks...")
+    utils.read_config(confirm=False)
+    click.echo(f"Done!")
+
 cli.add_command(create)
 cli.add_command(push)
 cli.add_command(pull)
+cli.add_command(link)

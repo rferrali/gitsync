@@ -7,7 +7,7 @@ import os
 from shutil import copytree, rmtree
 import click
 
-def read_config():
+def read_config(confirm=True):
     # check if config file exists
     config_file = Path("papersync.yaml")
     if not config_file.exists():
@@ -48,8 +48,12 @@ def read_config():
             raise click.ClickException(f"\u274c Project {d_name}: remote directory not found: {remote}")
         assets_link_path = local.joinpath(assets.name)
         if not assets_link_path.exists():
-            click.echo(f"\u2757 Project {d_name}: the local folder does not contain a symlink pointing to the assets library")
-            if click.confirm("Do you want to create one?", abort=True):
+            if confirm:
+                click.echo(f"\u2757 Project {d_name}: the local folder does not contain a symlink pointing to the assets library")
+                if click.confirm("Do you want to create one?", abort=True):
+                    assets_link_path.symlink_to(assets.absolute(), target_is_directory=True)
+            else:
+                click.echo(f"Project {d_name}: creating symlink to assets in {d_local}")
                 assets_link_path.symlink_to(assets.absolute(), target_is_directory=True)
         if not assets_link_path.is_symlink(): 
             click.echo(f"\u2757 Project {d_name}: {assets_link_path} is not a symlink pointing to the assets library")
