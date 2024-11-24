@@ -15,7 +15,7 @@ setup(
     },
     include_package_data=True,
     package_data={
-        'gitsync': ['data/gitsync.json']
+        'gitsync': ['data/gitsync.yaml']
     },
     install_requires=['click','GitPython','python-dotenv'],
     classifiers=[

@@ -1,9 +1,0 @@
-{
-    "assets": "./assets",
-    "projects": [
-        {
-            "name": "article",
-            "local": "./tex/article"
-        }
-    ]
-}
