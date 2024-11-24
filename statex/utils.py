@@ -9,13 +9,13 @@ import click
 
 def read_config():
     # check if config file exists
-    config_file = Path("gitsync.yaml")
+    config_file = Path("papersync.yaml")
     if not config_file.exists():
-        raise click.ClickException(f"\u274c Config file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
+        raise click.ClickException(f"\u274c Config file not found. Perhaps you didn't run 'papersync create'? Or you're not using papersync at the root of the local directory.")
     # check if .env file exists
     env_file = Path(".env")
     if not env_file.exists():
-        raise click.ClickException(f"\u274c .env file not found. Perhaps you didn't run 'gitsync create'? Or you're not using gitsync at the root of the local directory.")
+        raise click.ClickException(f"\u274c .env file not found. Perhaps you didn't run 'papersync create'? Or you're not using papersync at the root of the local directory.")
     env = dotenv_values(env_file)
     # check if config file is valid
         # can it be loaded? 
@@ -41,9 +41,9 @@ def read_config():
         if not local.exists():
             raise click.ClickException(f"\u274c Project {d_name}: local directory not found: {d_local}")
         try: 
-            remote = env['GITSYNC_' + d_name.upper()]
+            remote = env['PAPERSYNC_' + d_name.upper()]
         except KeyError:
-            raise click.ClickException(f"\u274c .env does not contain a remote path for project {d_name}. Set a variable named GITSYNC_{d_name.upper()} in your .env file (mind the case).")
+            raise click.ClickException(f"\u274c .env does not contain a remote path for project {d_name}. Set a variable named PAPERSYNC_{d_name.upper()} in your .env file (mind the case).")
         if not Path(remote).exists():
             raise click.ClickException(f"\u274c Project {d_name}: remote directory not found: {remote}")
         assets_link_path = local.joinpath(assets.name)

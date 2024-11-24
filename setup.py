@@ -1,21 +1,21 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='gitsync',
+    name='papersync',
     version='0.1.0',
     description='Sync folders from a git repo to local folders',
     author='Romain Ferrali',
     author_email='romain.ferrali@univ-amu.fr',
-    url='https://github.com/yourusername/gitsync',
+    url='https://github.com/yourusername/papersync',
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'gitsync=gitsync.cli:cli',
+            'papersync=papersync.cli:cli',
         ]
     },
     include_package_data=True,
     package_data={
-        'gitsync': ['data/gitsync.yaml']
+        'papersync': ['data/papersync.yaml']
     },
     install_requires=['click','GitPython','python-dotenv'],
     classifiers=[

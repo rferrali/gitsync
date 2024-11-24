@@ -3,7 +3,7 @@ from dotenv import set_key
 from pathlib import Path
 import shutil
 from importlib.resources import files
-import gitsync.utils as utils
+import papersync.utils as utils
 from git import Repo, InvalidGitRepositoryError
 
 @click.group()
@@ -84,18 +84,18 @@ def create():
     """Initialize a repo"""
     click.echo(f"\u23f3 Initializing...")
     env_file = Path(".env")
-    config_file = Path("gitsync.yaml")
-    # Create the gitsync.yaml file if it does not exist.
+    config_file = Path("papersync.yaml")
+    # Create the papersync.yaml file if it does not exist.
     if config_file.exists():
         click.echo(f"\u2757 Config file already exists. Skipping...")
         return
-    shutil.copyfile(files('gitsync.data').joinpath('gitsync.yaml'), config_file)
+    shutil.copyfile(files('papersync.data').joinpath('papersync.yaml'), config_file)
     # Create the .env file if it does not exist.
     if not env_file.exists():
         click.echo(f"Creating .env file...")
         env_file.touch(mode=0o600, exist_ok=False)
-    set_key(env_file, "GITSYNC_ARTICLE", "/some/path/to/article")
-    click.echo(f"\u2705 Done! Please update gitsync.yaml and .env with your own paths.")
+    set_key(env_file, "PAPERSYNC_ARTICLE", "/some/path/to/article")
+    click.echo(f"\u2705 Done! Please update papersync.yaml and .env with your own paths.")
 
 cli.add_command(create)
 cli.add_command(push)

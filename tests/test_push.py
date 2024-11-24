@@ -1,5 +1,5 @@
 import os
-from gitsync.push import push
+from papersync.push import push
 
 def test_sync():
     # Test syncing a dummy repo to a folder
