@@ -5,8 +5,8 @@ setup(
     version='0.1.0',
     description='Sync folders from a git repo to local folders',
     author='Romain Ferrali',
-    author_email='romain.ferrali@univ-amu.fr',
-    url='https://github.com/yourusername/papersync',
+    author_email='rferrali@gmail.com',
+    url='https://github.com/rferrali/papersync',
     packages=find_packages(),
     entry_points={
         'console_scripts': [
